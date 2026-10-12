@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fake Account Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ===== ROOT VARS ===== */
+:root{
+  --bg:#03020a;
+  --bg2:#07050f;
+  --surface:rgba(255,255,255,0.03);
+  --surface2:rgba(255,255,255,0.055);
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.11);
+  --accent:#7c3aed;
+  --accent2:#a855f7;
+  --accent3:#c084fc;
+  --cyan:#06b6d4;
+  --green:#10b981;
+  --text:#f1f0ff;
+  --text2:#9d97c2;
+  --text3:#4e4870;
+  --glow:rgba(124,58,237,0.35);
+  --r:10px;
+  --r2:16px;
+}
+
+/* ===== BODY & BACKGROUND ===== */
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:40px 16px 60px;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* Grid */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(124,58,237,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,58,237,0.03) 1px,transparent 1px);
+  background-size:55px 55px;
+  pointer-events:none;z-index:0;
+}
+/* Glow orbs */
+body::after{
+  content:'';
+  position:fixed;
+  top:-30%;left:-15%;
+  width:130%;height:80%;
+  background:
+    radial-gradient(ellipse at 25% 35%,rgba(124,58,237,0.13) 0%,transparent 55%),
+    radial-gradient(ellipse at 75% 75%,rgba(6,182,212,0.07) 0%,transparent 50%),
+    radial-gradient(ellipse at 60% 20%,rgba(168,85,247,0.06) 0%,transparent 40%);
+  pointer-events:none;z-index:0;
+}
+
+/* ===== CARD CONTAINER ===== */
+.card{
+  position:relative;z-index:1;
+  background:rgba(8,6,20,0.75);
+  border:1px solid rgba(124,58,237,0.18);
+  border-radius:24px;
+  padding:36px 32px;
+  width:100%;max-width:500px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03),
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 80px rgba(124,58,237,0.1);
+  backdrop-filter:blur(24px);
+}
+.card::before{
+  content:'';position:absolute;
+  top:-1px;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,58,237,0.5),transparent);
+  border-radius:100%;
+}
+
+/* ===== HEADER ===== */
+.header{
+  text-align:center;
+  margin-bottom:28px;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:.15em;
+  color:var(--accent3);
+  background:rgba(124,58,237,0.1);
+  border:1px solid rgba(124,58,237,0.25);
+  padding:5px 14px;border-radius:100px;
+  margin-bottom:14px;
+  text-transform:uppercase;
+}
+.badge-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--accent3);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{
+  font-size:22px;font-weight:700;
+  letter-spacing:-.03em;
+  background:linear-gradient(135deg,#fff 0%,var(--accent3) 60%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:6px;
+}
+.subtitle{
+  font-size:12px;color:var(--text3);
+  font-family:'Space Mono',monospace;
+}
+
+/* ===== DIVIDER ===== */
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border2),transparent);
+  margin:0 -32px 24px;
+}
+
+/* ===== FORM ===== */
+.form-group{margin-bottom:16px;}
+.form-label{
+  display:block;
+  font-size:10px;font-weight:600;letter-spacing:.12em;
+  color:var(--text2);margin-bottom:7px;
+  text-transform:uppercase;
+  font-family:'Space Mono',monospace;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;
+  background:rgba(255,255,255,0.035);
+  border:1px solid var(--border2);
+  border-radius:var(--r);
+  color:var(--text);
+  font-family:inherit;
+  font-size:13px;
+  padding:11px 14px;
+  outline:none;
+  transition:.18s;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:rgba(124,58,237,0.5);
+  background:rgba(124,58,237,0.05);
+  box-shadow:0 0 0 3px rgba(124,58,237,0.08);
+}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text3);}
+.form-select{cursor:pointer;}
+.form-select option{background:#0d0a1e;color:var(--text);}
+.form-textarea{
+  resize:vertical;
+  min-height:120px;
+  line-height:1.6;
+}
+
+/* ===== BRAND PILLS ===== */
+.brand-grid{
+  display:flex;flex-wrap:wrap;gap:7px;
+  margin-top:8px;
+}
+.brand-pill{
+  padding:7px 14px;
+  border-radius:100px;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  color:var(--text2);
+  font-size:12px;font-weight:500;
+  cursor:pointer;
+  transition:.15s;
+  font-family:inherit;
+  white-space:nowrap;
+}
+.brand-pill:hover{
+  border-color:rgba(124,58,237,0.35);
+  color:var(--text);
+  background:rgba(124,58,237,0.07);
+}
+.brand-pill.selected{
+  background:rgba(124,58,237,0.15);
+  border-color:rgba(124,58,237,0.5);
+  color:var(--accent3);
+  box-shadow:0 0 12px rgba(124,58,237,0.15);
+}
+
+/* ===== BUTTONS ===== */
+.btn-row{
+  display:flex;gap:10px;margin-top:20px;
+  flex-wrap:wrap;
+}
+.btn{
+  flex:1;min-width:100px;
+  padding:12px 16px;border-radius:var(--r);
+  font-family:inherit;font-size:13px;font-weight:600;
+  cursor:pointer;border:none;
+  transition:.18s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  white-space:nowrap;
+}
+.btn-send{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  box-shadow:0 4px 20px var(--glow);
+}
+.btn-send:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--glow);}
+.btn-send:active{transform:translateY(0);}
+.btn-copy{
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  color:var(--text2);
+}
+.btn-copy:hover{background:rgba(6,182,212,0.08);border-color:rgba(6,182,212,0.25);color:var(--cyan);}
+.btn-reset{
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text3);
+}
+.btn-reset:hover{background:rgba(248,113,113,0.06);border-color:rgba(248,113,113,0.2);color:#f87171;}
+
+/* ===== RESULT BOX ===== */
+.result-wrap{
+  margin-top:20px;
+  display:none;
+}
+.result-label{
+  font-size:10px;font-weight:600;letter-spacing:.12em;
+  color:var(--text2);margin-bottom:7px;
+  text-transform:uppercase;
+  font-family:'Space Mono',monospace;
+}
+.result-box{
+  background:rgba(0,0,0,0.3);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:14px;
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  color:var(--text2);
+  line-height:1.7;
+  white-space:pre-wrap;
+  word-break:break-word;
+  max-height:200px;
+  overflow-y:auto;
+}
+
+/* ===== NOTICE ===== */
+.notice{
+  margin-top:24px;
+  background:rgba(6,182,212,0.04);
+  border:1px solid rgba(6,182,212,0.12);
+  border-radius:var(--r);
+  padding:12px 16px;
+  font-size:11px;
+  color:var(--text3);
+  line-height:1.6;
+  font-family:'Space Mono',monospace;
+}
+.notice strong{color:var(--cyan);font-size:10px;}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:28px;right:20px;
+  background:rgba(8,6,20,0.95);
+  border:1px solid rgba(124,58,237,0.3);
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:13px;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.5),0 0 30px rgba(124,58,237,0.1);
+  z-index:9999;
+  transform:translateY(20px);opacity:0;
+  transition:.3s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ===== FOOTER ===== */
+footer{
+  position:relative;z-index:1;
+  margin-top:24px;
+  font-size:11px;color:var(--text3);
+  font-family:'Space Mono',monospace;
+  text-align:center;
+  letter-spacing:.05em;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(124,58,237,0.3);border-radius:2px;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:480px){
+  .card{padding:28px 20px;}
+  .divider{margin:0 -20px 20px;}
+  .btn-row{flex-direction:column;}
+  .btn{flex:none;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="badge"><div class="badge-dot"></div>Report Tool</div>
+    <h1>Fake Account Report</h1>
+    <div class="subtitle">// email abuse reporter</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ADD SENDER -->
+  <div class="form-group">
+    <label class="form-label">Add Sender</label>
+    <input class="form-input" id="sender" type="email" placeholder="sender@example.com">
+  </div>
+
+  <!-- BRAND -->
+  <div class="form-group">
+    <label class="form-label">Brand</label>
+    <div class="brand-grid" id="brand-grid">
+      <button class="brand-pill" data-brand="Binance"   data-email="support@binance.com">Binance</button>
+      <button class="brand-pill" data-brand="Monzo"     data-email="help@monzo.com">Monzo</button>
+      <button class="brand-pill" data-brand="CoinDesk"  data-email="info@coindesk.com">CoinDesk</button>
+      <button class="brand-pill" data-brand="Tezos"     data-email="abuse@tezos.com">Tezos</button>
+      <button class="brand-pill" data-brand="CoinEx"    data-email="support@coinex.com">CoinEx</button>
+    </div>
+  </div>
+
+  <!-- SUBJEK -->
+  <div class="form-group">
+    <label class="form-label">Subjek</label>
+    <input class="form-input" id="subject" type="text" placeholder="Subjek laporan...">
+  </div>
+
+  <!-- LAPORAN -->
+  <div class="form-group">
+    <label class="form-label">Laporan</label>
+    <textarea class="form-textarea" id="body" placeholder="Tulis isi laporan di sini..."></textarea>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="btn-row">
+    <button class="btn btn-send" onclick="kirimLaporan()">
+      <span>⚡</span> Kirim Laporan
+    </button>
+    <button class="btn btn-copy" onclick="salinLaporan()">
+      <span>📋</span> Salin
+    </button>
+    <button class="btn btn-reset" onclick="resetForm()">
+      <span>↺</span> Reset
+    </button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap" id="result-wrap">
+    <div class="result-label">Preview Laporan</div>
+    <div class="result-box" id="result-box"></div>
+  </div>
+
+  <!-- NOTICE -->
+  <div class="notice">
+    <strong>ℹ INFO</strong><br>
+    Alamat penerima tidak ditampilkan di halaman. Saat <em>"Kirim Laporan"</em> dipilih, aplikasi email akan menempatkan penerima pada kolom <em>Kepada (To)</em>. Kolom <em>Add Sender</em> hanya digunakan di form dan tidak dimasukkan ke isi laporan.
+  </div>
+</div>
+
+<footer>Kalzzz © 2026 &nbsp;·&nbsp; t.me/Kalzter</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span id="toast-icon">✅</span>
+  <span id="toast-msg">Berhasil</span>
+</div>
+
+<script>
+// ===== BRAND SELECTION =====
+let selectedBrand = null;
+let selectedEmail = null;
+
+document.querySelectorAll('.brand-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.brand-pill').forEach(p => p.classList.remove('selected'));
+    this.classList.add('selected');
+    selectedBrand = this.dataset.brand;
+    selectedEmail = this.dataset.email;
+    updatePreview();
+  });
+});
+
+// ===== AUTO PREVIEW =====
+['subject','body'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updatePreview);
+});
+
+function updatePreview() {
+  const subj = document.getElementById('subject').value.trim();
+  const body = document.getElementById('body').value.trim();
+  const wrap = document.getElementById('result-wrap');
+  const box  = document.getElementById('result-box');
+
+  if (!subj && !body) {
+    wrap.style.display = 'none';
+    return;
+  }
+  wrap.style.display = 'block';
+  box.textContent =
+    (selectedBrand ? `Brand    : ${selectedBrand}\n` : '') +
+    (subj          ? `Subjek   : ${subj}\n`           : '') +
+    (body          ? `\n${body}`                       : '');
+}
+
+// ===== KIRIM =====
+function kirimLaporan() {
+  const sender  = document.getElementById('sender').value.trim();
+  const subject = document.getElementById('subject').value.trim();
+  const body    = document.getElementById('body').value.trim();
+
+  if (!selectedEmail) { showToast('Pilih brand dulu!', '⚠️'); return; }
+  if (!subject)        { showToast('Subjek tidak boleh kosong!', '⚠️'); return; }
+  if (!body)           { showToast('Isi laporan tidak boleh kosong!', '⚠️'); return; }
+
+  const fullBody = sender
+    ? `Dilaporkan dari: ${sender}\n\n${body}`
+    : body;
+
+  const mailto = `mailto:${selectedEmail}`
+    + `?subject=${encodeURIComponent(subject)}`
+    + `&body=${encodeURIComponent(fullBody)}`;
+
+  window.location.href = mailto;
+  showToast('Membuka aplikasi email…', '📧');
+}
+
+// ===== SALIN =====
+function salinLaporan() {
+  const subject = document.getElementById('subject').value.trim();
+  const body    = document.getElementById('body').value.trim();
+
+  if (!subject && !body) { showToast('Tidak ada yang disalin!', '⚠️'); return; }
+
+  const text =
+    (selectedBrand ? `Brand  : ${selectedBrand}\n` : '') +
+    (subject       ? `Subjek : ${subject}\n`        : '') +
+    (body          ? `\n${body}`                    : '');
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('Laporan disalin!', '📋'))
+      .catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); showToast('Laporan disalin!', '📋'); }
+  catch { showToast('Gagal menyalin', '❌'); }
+  document.body.removeChild(ta);
+}
+
+// ===== RESET =====
+function resetForm() {
+  document.getElementById('sender').value  = '';
+  document.getElementById('subject').value = '';
+  document.getElementById('body').value    = '';
+  document.querySelectorAll('.brand-pill').forEach(p => p.classList.remove('selected'));
+  selectedBrand = null;
+  selectedEmail = null;
+  document.getElementById('result-wrap').style.display = 'none';
+  showToast('Form direset', '↺');
+}
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg, icon = '✅') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent  = msg;
+  document.getElementById('toast-icon').textContent = icon;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
